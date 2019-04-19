@@ -4,6 +4,9 @@ pipeline {
         image 'node:8.11.1' 
         args '-p 3000:3000'
    }}
+   environment{
+       CI = 'true'
+   }
    stages{
        stage('build'){
            steps{
@@ -13,6 +16,11 @@ pipeline {
        stage('test'){
            steps{
                sh 'echo just a test'
+           }
+       }
+       stage('deliver'){
+           steps{
+               sh 'echo deliver it'
            }
        }
    }
