@@ -21,10 +21,16 @@ pipeline {
            echo 'Test finished'
        }
        success{
-           echo 'This will run only if successful'
+            echo 'This will run only if successful'
+            mail to: 'yangjun@nanchao.org',
+                subject: "Passed Pipeline: ${currentBuild.fullDisplayName}",
+                body: "Test succeeds with ${env.BUILD_URL}"
        }
        failure{
-           echo 'This will run only if failed'
+            echo 'This will run only if failed'
+            mail to: 'yangjun@nanchao.org',
+                subject: "Failed Pipeline: ${currentBuild.fullDisplayName}",
+                body: "Test failed with ${env.BUILD_URL}"
        }
    }
 }
