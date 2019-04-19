@@ -1,24 +1,30 @@
 pipeline {
-    agent { docker { image 'node:6.3' } }
-    stages {
-        stage('build') {
-            steps {
-                sh 'npm run start'
-		sh '''
-		   echo "Multiline shell steps works too"
-		'''		
-            }
-        }
-    }
-    post{
-        always{
-            echo 'This will always run'
-        }
-        success{
-            echo 'This will run only if successful'
-        }
-        failure{
-            echo 'This will run only if failed'
-        }
-    }
+   agent { 
+       docker {
+        image 'node:8.11.1' 
+        args '-p 3000:3000'
+   }}
+   stages{
+       stage('build'){
+           steps{
+               sh 'npm run start'
+           }
+       }
+       stage('test'){
+           steps{
+               sh 'mvn -v'
+           }
+       }
+   }
+   post{
+       always{
+           echo 'Test finished'
+       }
+       success{
+           echo 'This will run only if successful'
+       }
+       failure{
+           echo 'This will run only if failed'
+       }
+   }
 }
